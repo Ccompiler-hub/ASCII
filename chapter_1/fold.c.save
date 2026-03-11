@@ -1,0 +1,32 @@
+#include <stdio.h>
+#define LONG_INPUT 50
+#define TABSTOP 8
+
+void dump_text(char text[], int leng);
+int main(){
+	int c;
+	char current_line[LONG_INPUT+1];
+	int k= 0, last_space = -1; //k for kolumn
+	while((c = getchar()) != EOF)
+	{
+	if (k < LONG_INPUT){
+		current_line[k] = c;
+		if(c == ' ' || c == '\t') last_space = k;
+		if(c == '\t') {k += TABSTOP - ((k + TABSTOP) % TABSTOP) -1;} //tabs differrence with others
+		k++;
+		if(c == '\n') {dump_text(current_line, k); k = 0; last_space = -1;} //it's fixed itself 
+		}
+	else	{
+		if (last_space >= 0)
+			{dump_text(current_line, last_space); putchar('\n'); k -= last_space;
+	                for (i = 0; i < col; i++) buffer[i] = buffer[last_blank + 1 + i];}
+		else {current_line[LONG_INPUT] = '\n'; dump_text(current_line, k); k = 0;}
+		}
+	}
+	return 0;
+}
+
+void dump_text(char text[], int leng) {
+	int k;
+	for (k = 0; k <= leng; k++) putchar(text[k]);
+}

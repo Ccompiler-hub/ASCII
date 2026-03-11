@@ -1,0 +1,33 @@
+#include <stdio.h>
+#define LONG_INPUT 50
+#define TABSTOP 8
+
+void dump_text(char text[], int leng, int start);
+int main(){ //break the line and print with 2 intervals.
+	int c;
+	char buffer[LONG_INPUT+1];
+	int k= 0, last_space = -1; //k for kolumn
+	int i;
+	while((c = getchar()) != EOF)
+	{
+	buffer[k] = c; 	if(c == ' ' || c == '\t') last_space = k;
+	if (k < LONG_INPUT-1){
+		k++; //queue to the next column
+		if(c == '\t') {k += TABSTOP - ((k + TABSTOP) % TABSTOP) -1;} //tabs differ
+		if(c == '\n') {dump_text(buffer, k-1, 0); k = 0; last_space = -1;} //fixed itself 
+		}
+	else	{ //process the information and bring me to the next line
+		if (last_space >= 0)
+			{dump_text(buffer, last_space, 0); putchar('\n'); k -= (last_space); //number of characters remaining in buffer
+	                for (i = 0; i <= k; i++) buffer[i] = buffer[last_space +1 +i];}
+		else {buffer[LONG_INPUT] = '\n'; dump_text(buffer, k+1, 0); k = 0;}
+		}
+	}
+	if (c == EOF) {dump_text(buffer,k,0);k=0;}
+	return 0;
+}
+
+void dump_text(char text[],int leng, int start) { //dump everything upto and including...
+	int k;
+	for (k = 0; k <= leng; k++) putchar(text[k + start]);
+}
